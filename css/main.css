@@ -1686,7 +1686,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #cd1342;
+  background: #810ba2;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -1835,7 +1835,7 @@ pre .javascript .function {
 .cc-license img {
   display: inline-block;
 }
-.footer-music {
+.footer .footer-music {
   top: 20px;
   width: 330px !important;
   margin: auto;
