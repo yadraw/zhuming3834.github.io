@@ -99,7 +99,7 @@
 <meta property="og:image" content="http://p1.bqimg.com/567709/a3f8fd8ecbaccaa1.png">
 <meta property="og:image" content="http://p1.bqimg.com/567709/9aabf88eee3ec6ed.png">
 <meta property="og:image" content="http://p1.bqimg.com/567709/051d4e86686804be.png">
-<meta property="og:updated_time" content="2017-01-12T12:46:58.000Z">
+<meta property="og:updated_time" content="2017-01-12T12:48:23.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Mac下安装Node.js、测试、输出json">
 <meta name="twitter:description" content="一、什么是node.js关于这个百度百科会有专业解释：node.js
@@ -400,6 +400,10 @@
 <p>test是你的js文件名。效果如图：<br><img src="http://p1.bqimg.com/567709/9aabf88eee3ec6ed.png" alt="runnode.js"></p>
 <h3 id="四、输出json各式的数据"><a href="#四、输出json各式的数据" class="headerlink" title="四、输出json各式的数据"></a>四、输出json各式的数据</h3><p>通常我们在左app的时候，前后端是通过接口对接的，数据各式一般都是json各式,其实node.js也可以返回json各式的数据。<br>这里我们只需要修改上面的代码即可：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">// 添加依赖模块</div><div class="line">var http = require(&apos;http&apos;);</div><div class="line">http.createServer(function (request, response) &#123;</div><div class="line">// 发送 HTTP 头部 </div><div class="line">// HTTP 状态值: 200 : OK</div><div class="line">// 内容类型: application/json</div><div class="line">// 字符编码：charset=utf-8 解决返回的json数据里面的中文乱码</div><div class="line">response.writeHead(200, &#123;&apos;Content-Type&apos;: &apos;application/json;charset=utf-8&apos;&#125;);</div><div class="line">// 发送响应json数据</div><div class="line">response.end(JSON.stringify(&#123;name:&apos;湖工电气&apos;,value:&apos;测试的json数据&apos;&#125;));</div><div class="line">&#125;).listen(8888);</div><div class="line">// 终端打印如下信息</div><div class="line">console.log(&apos;Server running at http://127.0.0.1:8888/&apos;);</div></pre></td></tr></table></figure></p>
 <p>输出效果如下：<br><img src="http://p1.bqimg.com/567709/051d4e86686804be.png" alt="json"><br>最后，node.js我们也安装了，也测试了。</p>
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=188674&auto=1&height=66"></iframe>
+
+
+
 
       
     </div>
