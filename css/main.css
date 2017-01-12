@@ -1686,7 +1686,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #530bff;
+  background: #cd1342;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -1837,7 +1837,7 @@ pre .javascript .function {
 }
 .footer-music {
   top: 20px;
-  width: 330px;
+  width: 330px !important;
   margin: auto;
 }
 .theme-next #ds-thread #ds-reset {
