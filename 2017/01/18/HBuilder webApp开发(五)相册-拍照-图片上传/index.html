@@ -1,0 +1,1029 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hbuilder,webapp,相册/拍照,图片上传," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="在做项目的过程中，需要从相册或是拍照，然后上传，比如修改用户头像或是上传项目图片。
+一、效果图点击用户头像后，弹出actionSheet，选着从相册或是拍照；选着图片后就调用上传方法，上传图片；在上传之前先压缩了一下图片。
+二、使用流程
+弹出actionSheet
+
+12345678910111213141516171819202122232425262728/*点击头像触发*/document.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HBuilder webApp开发(五)相册-拍照-图片上传">
+<meta property="og:url" content="http://yoursite.com/2017/01/18/HBuilder webApp开发(五)相册-拍照-图片上传/index.html">
+<meta property="og:site_name" content="湖工电气的博客">
+<meta property="og:description" content="在做项目的过程中，需要从相册或是拍照，然后上传，比如修改用户头像或是上传项目图片。
+一、效果图点击用户头像后，弹出actionSheet，选着从相册或是拍照；选着图片后就调用上传方法，上传图片；在上传之前先压缩了一下图片。
+二、使用流程
+弹出actionSheet
+
+12345678910111213141516171819202122232425262728/*点击头像触发*/document.">
+<meta property="og:image" content="http://img.blog.csdn.net/20160603220606956">
+<meta property="og:updated_time" content="2017-01-18T03:32:12.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="HBuilder webApp开发(五)相册-拍照-图片上传">
+<meta name="twitter:description" content="在做项目的过程中，需要从相册或是拍照，然后上传，比如修改用户头像或是上传项目图片。
+一、效果图点击用户头像后，弹出actionSheet，选着从相册或是拍照；选着图片后就调用上传方法，上传图片；在上传之前先压缩了一下图片。
+二、使用流程
+弹出actionSheet
+
+12345678910111213141516171819202122232425262728/*点击头像触发*/document.">
+<meta name="twitter:image" content="http://img.blog.csdn.net/20160603220606956">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/01/18/HBuilder webApp开发(五)相册-拍照-图片上传/"/>
+
+
+
+
+
+  <title> HBuilder webApp开发(五)相册-拍照-图片上传 | 湖工电气的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?d6c633953f9a663fffad594ea8ea06f3";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">湖工电气的博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle"></p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/18/HBuilder webApp开发(五)相册-拍照-图片上传/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="湖工电气">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.png">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="湖工电气的博客">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="湖工电气的博客" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                HBuilder webApp开发(五)相册-拍照-图片上传
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-18T13:50:40+08:00">
+                2017-01-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/01/18/HBuilder webApp开发(五)相册-拍照-图片上传/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/18/HBuilder webApp开发(五)相册-拍照-图片上传/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/01/18/HBuilder webApp开发(五)相册-拍照-图片上传/" class="leancloud_visitors" data-flag-title="HBuilder webApp开发(五)相册-拍照-图片上传">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>在做项目的过程中，需要从相册或是拍照，然后上传，比如修改用户头像或是上传项目图片。</p>
+<h3 id="一、效果图"><a href="#一、效果图" class="headerlink" title="一、效果图"></a>一、效果图</h3><p><img src="http://img.blog.csdn.net/20160603220606956" alt="这里写图片描述"><br>点击用户头像后，弹出actionSheet，选着从相册或是拍照；选着图片后就调用上传方法，上传图片；在上传之前先压缩了一下图片。</p>
+<h3 id="二、使用流程"><a href="#二、使用流程" class="headerlink" title="二、使用流程"></a>二、使用流程</h3><ul>
+<li>弹出actionSheet</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/*点击头像触发*/</span></div><div class="line"><span class="built_in">document</span>.getElementById(<span class="string">'headImage'</span>).addEventListener(<span class="string">'tap'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">	<span class="keyword">if</span> (mui.os.plus) &#123;</div><div class="line">		<span class="keyword">var</span> a = [&#123;</div><div class="line">			<span class="attr">title</span>: <span class="string">"拍照"</span></div><div class="line">		&#125;, &#123;</div><div class="line">			<span class="attr">title</span>: <span class="string">"从手机相册选择"</span></div><div class="line">		&#125;];</div><div class="line">		plus.nativeUI.actionSheet(&#123;</div><div class="line">			<span class="attr">title</span>: <span class="string">"修改用户头像"</span>,</div><div class="line">			<span class="attr">cancel</span>: <span class="string">"取消"</span>,</div><div class="line">			<span class="attr">buttons</span>: a</div><div class="line">		&#125;, <span class="function"><span class="keyword">function</span>(<span class="params">b</span>) </span>&#123; <span class="comment">/*actionSheet 按钮点击事件*/</span></div><div class="line">			<span class="keyword">switch</span> (b.index) &#123;</div><div class="line">				<span class="keyword">case</span> <span class="number">0</span>:</div><div class="line">					<span class="keyword">break</span>;</div><div class="line">				<span class="keyword">case</span> <span class="number">1</span>:</div><div class="line">					getImage(); <span class="comment">/*拍照*/</span></div><div class="line">					<span class="keyword">break</span>;</div><div class="line">				<span class="keyword">case</span> <span class="number">2</span>:</div><div class="line">					galleryImg();<span class="comment">/*打开相册*/</span></div><div class="line">					<span class="keyword">break</span>;</div><div class="line">				<span class="keyword">default</span>:</div><div class="line">					<span class="keyword">break</span>;</div><div class="line">			&#125;</div><div class="line">		&#125;)</div><div class="line">	&#125;</div><div class="line">&#125;, <span class="literal">false</span>);</div></pre></td></tr></table></figure>
+<ul>
+<li>拍照上传</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//拍照</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getImage</span>(<span class="params"></span>) </span>&#123;</div><div class="line">	<span class="keyword">var</span> c = plus.camera.getCamera();</div><div class="line">	c.captureImage(<span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</div><div class="line">		plus.io.resolveLocalFileSystemURL(e, <span class="function"><span class="keyword">function</span>(<span class="params">entry</span>) </span>&#123;</div><div class="line">			<span class="keyword">var</span> s = entry.toLocalURL() + <span class="string">"?version="</span> + <span class="keyword">new</span> <span class="built_in">Date</span>().getTime();</div><div class="line">			uploadHead(s); <span class="comment">/*上传图片*/</span></div><div class="line">		&#125;, <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</div><div class="line">			<span class="built_in">console</span>.log(<span class="string">"读取拍照文件错误："</span> + e.message);</div><div class="line">		&#125;);</div><div class="line">	&#125;, <span class="function"><span class="keyword">function</span>(<span class="params">s</span>) </span>&#123;</div><div class="line">		<span class="built_in">console</span>.log(<span class="string">"error"</span> + s);</div><div class="line">	&#125;, &#123;</div><div class="line">		<span class="attr">filename</span>: <span class="string">"_doc/head.png"</span></div><div class="line">	&#125;)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>从相册选图上传</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//本地相册选择</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">galleryImg</span>(<span class="params"></span>) </span>&#123;</div><div class="line">	plus.gallery.pick(<span class="function"><span class="keyword">function</span>(<span class="params">a</span>) </span>&#123;</div><div class="line">		plus.io.resolveLocalFileSystemURL(a, <span class="function"><span class="keyword">function</span>(<span class="params">entry</span>) </span>&#123;</div><div class="line">			plus.io.resolveLocalFileSystemURL(<span class="string">"_doc/"</span>, <span class="function"><span class="keyword">function</span>(<span class="params">root</span>) </span>&#123;</div><div class="line">				root.getFile(<span class="string">"head.png"</span>, &#123;&#125;, <span class="function"><span class="keyword">function</span>(<span class="params">file</span>) </span>&#123;</div><div class="line">					<span class="comment">//文件已存在</span></div><div class="line">					file.remove(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">						<span class="built_in">console</span>.log(<span class="string">"file remove success"</span>);</div><div class="line">						entry.copyTo(root, <span class="string">'head.png'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</div><div class="line">								<span class="keyword">var</span> e = e.fullPath + <span class="string">"?version="</span> + <span class="keyword">new</span> <span class="built_in">Date</span>().getTime();</div><div class="line">								uploadHead(e); <span class="comment">/*上传图片*/</span></div><div class="line">								<span class="comment">//变更大图预览的src</span></div><div class="line">								<span class="comment">//目前仅有一张图片，暂时如此处理，后续需要通过标准组件实现</span></div><div class="line">							&#125;,</div><div class="line">							<span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</div><div class="line">								<span class="built_in">console</span>.log(<span class="string">'copy image fail:'</span> + e.message);</div><div class="line">							&#125;);</div><div class="line">					&#125;, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">						<span class="built_in">console</span>.log(<span class="string">"delete image fail:"</span> + e.message);</div><div class="line">					&#125;);</div><div class="line">				&#125;, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">					<span class="comment">//文件不存在</span></div><div class="line">					entry.copyTo(root, <span class="string">'head.png'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</div><div class="line">							<span class="keyword">var</span> path = e.fullPath + <span class="string">"?version="</span> + <span class="keyword">new</span> <span class="built_in">Date</span>().getTime();</div><div class="line">							uploadHead(path); <span class="comment">/*上传图片*/</span></div><div class="line">						&#125;,</div><div class="line">						<span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</div><div class="line">							<span class="built_in">console</span>.log(<span class="string">'copy image fail:'</span> + e.message);</div><div class="line">						&#125;);</div><div class="line">				&#125;);</div><div class="line">			&#125;, <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</div><div class="line">				<span class="built_in">console</span>.log(<span class="string">"get _www folder fail"</span>);</div><div class="line">			&#125;)</div><div class="line">		&#125;, <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</div><div class="line">			<span class="built_in">console</span>.log(<span class="string">"读取拍照文件错误："</span> + e.message);</div><div class="line">		&#125;);</div><div class="line">	&#125;, <span class="function"><span class="keyword">function</span>(<span class="params">a</span>) </span>&#123;&#125;, &#123;</div><div class="line">		<span class="attr">filter</span>: <span class="string">"image"</span></div><div class="line">	&#125;)</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<ul>
+<li>图片上传和压缩</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//上传头像图片</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">uploadHead</span>(<span class="params">imgPath</span>) </span>&#123;</div><div class="line">	<span class="built_in">console</span>.log(<span class="string">"imgPath = "</span> + imgPath);</div><div class="line">	mainImage.src = imgPath;</div><div class="line">	mainImage.style.width = <span class="string">"60px"</span>;</div><div class="line">	mainImage.style.height = <span class="string">"60px"</span>;</div><div class="line">	</div><div class="line">	<span class="keyword">var</span> image = <span class="keyword">new</span> Image();</div><div class="line">	image.src = imgPath;</div><div class="line">	image.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">		<span class="keyword">var</span> imgData = getBase64Image(image);</div><div class="line">		<span class="comment">/*在这里调用上传接口*/</span></div><div class="line"><span class="comment">//				mui.ajax("图片上传接口", &#123;</span></div><div class="line"><span class="comment">//					data: &#123;</span></div><div class="line"><span class="comment">//						</span></div><div class="line"><span class="comment">//					&#125;,</span></div><div class="line"><span class="comment">//					dataType: 'json',</span></div><div class="line"><span class="comment">//					type: 'post',</span></div><div class="line"><span class="comment">//					timeout: 10000,</span></div><div class="line"><span class="comment">//					success: function(data) &#123;</span></div><div class="line"><span class="comment">//						console.log('上传成功');</span></div><div class="line"><span class="comment">//					&#125;,</span></div><div class="line"><span class="comment">//					error: function(xhr, type, errorThrown) &#123;</span></div><div class="line"><span class="comment">//						mui.toast('网络异常，请稍后再试！');</span></div><div class="line"><span class="comment">//					&#125;</span></div><div class="line"><span class="comment">//				&#125;);</span></div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">//将图片压缩转成base64</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getBase64Image</span>(<span class="params">img</span>) </span>&#123;</div><div class="line">	<span class="keyword">var</span> canvas = <span class="built_in">document</span>.createElement(<span class="string">"canvas"</span>);</div><div class="line">	<span class="keyword">var</span> width = img.width;</div><div class="line">	<span class="keyword">var</span> height = img.height;</div><div class="line">	<span class="comment">// calculate the width and height, constraining the proportions</span></div><div class="line">	<span class="keyword">if</span> (width &gt; height) &#123;</div><div class="line">		<span class="keyword">if</span> (width &gt; <span class="number">100</span>) &#123;</div><div class="line">			height = <span class="built_in">Math</span>.round(height *= <span class="number">100</span> / width);</div><div class="line">			width = <span class="number">100</span>;</div><div class="line">		&#125;</div><div class="line">	&#125; <span class="keyword">else</span> &#123;</div><div class="line">		<span class="keyword">if</span> (height &gt; <span class="number">100</span>) &#123;</div><div class="line">			width = <span class="built_in">Math</span>.round(width *= <span class="number">100</span> / height);</div><div class="line">			height = <span class="number">100</span>;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	canvas.width = width;   <span class="comment">/*设置新的图片的宽度*/</span></div><div class="line">	canvas.height = height; <span class="comment">/*设置新的图片的长度*/</span></div><div class="line">	<span class="keyword">var</span> ctx = canvas.getContext(<span class="string">"2d"</span>);</div><div class="line">	ctx.drawImage(img, <span class="number">0</span>, <span class="number">0</span>, width, height); <span class="comment">/*绘图*/</span></div><div class="line">	<span class="keyword">var</span> dataURL = canvas.toDataURL(<span class="string">"image/png"</span>, <span class="number">0.8</span>);</div><div class="line">	<span class="keyword">return</span> dataURL.replace(<span class="string">"data:image/png;base64,"</span>, <span class="string">""</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="三、总结"><a href="#三、总结" class="headerlink" title="三、总结"></a>三、总结</h3><p>在使用中，我们可以发现，使用流程是非常清晰的；某种程度来说比原生iOS的使用还要简单一些。<br>代码下载地址：<a href="https://github.com/zhuming3834/HBuildTest" target="_blank" rel="external">请点击我！</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Hbuilder/" rel="tag"># Hbuilder</a>
+          
+            <a href="/tags/webapp/" rel="tag"># webapp</a>
+          
+            <a href="/tags/相册-拍照/" rel="tag"># 相册/拍照</a>
+          
+            <a href="/tags/图片上传/" rel="tag"># 图片上传</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/01/18/HBuilder webApp开发(四)轮播图swiper/" rel="next" title="HBuilder webApp开发(四)轮播图swiper">
+                <i class="fa fa-chevron-left"></i> HBuilder webApp开发(四)轮播图swiper
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/01/18/HBuilder webApp开发(六)图片墙-图片预览/" rel="prev" title="HBuilder webApp开发(六)图片墙-图片预览">
+                HBuilder webApp开发(六)图片墙-图片预览 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/01/18/HBuilder webApp开发(五)相册-拍照-图片上传/"
+           data-title="HBuilder webApp开发(五)相册-拍照-图片上传" data-url="http://yoursite.com/2017/01/18/HBuilder webApp开发(五)相册-拍照-图片上传/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="湖工电气" />
+          <p class="site-author-name" itemprop="name">湖工电气</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/zhuming3834" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+        
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、效果图"><span class="nav-number">1.</span> <span class="nav-text">一、效果图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、使用流程"><span class="nav-number">2.</span> <span class="nav-text">二、使用流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、总结"><span class="nav-number">3.</span> <span class="nav-text">三、总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">湖工电气</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"hgdqstudio"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("hbBmDlLQs6M9ij6ioAnBtHlV-gzGzoHsz", "K5InCTFlAdakr0z2x1M6O0Yw");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+
+</body>
+</html>
