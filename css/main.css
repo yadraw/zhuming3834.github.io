@@ -7,6 +7,12 @@ html {
 body {
   margin: 0;
 }
+code {
+  padding: 2px 4px;
+  color: #c7254e;
+  background-color: #f9f2f4;
+  border-radius: 4px;
+}
 article,
 aside,
 details,
@@ -206,6 +212,12 @@ body {
     font-size: 16px;
   }
 }
+code {
+  padding: 2px 4px !important;
+  color: #c7254e !important;
+  background-color: #f9f2f4 !important;
+  border-radius: 4px !important;
+}
 h1,
 h2,
 h3,
@@ -359,6 +371,12 @@ dd {
 .clearfix:after {
   clear: both;
 }
+code {
+  padding: 2px 4px;
+  color: #c7254e;
+  background-color: #f9f2f4;
+  border-radius: 4px;
+}
 .pullquote {
   width: 45%;
 }
@@ -444,6 +462,12 @@ th {
 td {
   border-bottom-width: 1px;
 }
+code {
+  padding: 2px 4px;
+  color: #c7254e;
+  background-color: #f9f2f4;
+  border-radius: 4px;
+}
 html,
 body {
   height: 100%;
@@ -451,6 +475,12 @@ body {
 .container {
   position: relative;
   min-height: 100%;
+}
+code {
+  padding: 2px 4px;
+  color: #c7254e;
+  background-color: #f9f2f4;
+  border-radius: 4px;
 }
 .header-inner {
   margin: 0 auto;
@@ -1686,7 +1716,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #ffff18;
+  background: #ff7d7e;
 }
 .links-of-blogroll {
   font-size: 13px;
