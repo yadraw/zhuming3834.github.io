@@ -3,8 +3,8 @@
   
     
     <entry>
-      <title><![CDATA[Node.js.express的接口适配get和post并输出json]]></title>
-      <url>%2F2017%2F01%2F19%2FNode.js.express%E7%9A%84%E6%8E%A5%E5%8F%A3%E9%80%82%E9%85%8Dget%E5%92%8Cpost%E5%B9%B6%E8%BE%93%E5%87%BAjson%2F</url>
+      <title><![CDATA[Node.js+express的接口适配get和post并输出json]]></title>
+      <url>%2F2017%2F01%2F19%2FNode.js%2Bexpress%E7%9A%84%E6%8E%A5%E5%8F%A3%E9%80%82%E9%85%8Dget%E5%92%8Cpost%E5%B9%B6%E8%BE%93%E5%87%BAjson%2F</url>
       <content type="text"><![CDATA[在上一篇Node.js.express的get和post输出json例如post请求：12345678910111213141516171819202122232425var dataSuccess = &#123; status: '100', msg: '登录成功', data: &#123; userId: '20170113', userName: 'hgdqstudio', blog: 'http://hgdqstudio.online' &#125;&#125;;var dataError = &#123; status: '99', msg: '用户名或密码错误'&#125;;// 登录接口router.post('/login',function (req, res, next) &#123; // 打印post请求的数据内容 console.log(req.body); console.log(req.body.username); console.log(req.body.password); if (req.body.username == "hgdqstudio" &amp;&amp; req.body.password == "123456") &#123; res.end(JSON.stringify(dataSuccess)); &#125; else &#123; res.end(JSON.stringify(dataError)); &#125;&#125;); 但是这种接口，只能适应post这一种请求，如果我们希望后台给的接口支持post和get。显然上一篇中提到了的router.get和router.post都不能满足需求。在express中支持的方式是很多的，具体可以看文档。我们就需要改造了。1234567891011121314151617// 登录接口router.all('/login',function (req, res, next) &#123; console.log(req.method);// 打印请求方式 if (req.method == "POST") &#123; var param = req.body; &#125; else&#123; var param = req.query || req.params; &#125; console.log(param); console.log(param.username); console.log(param.password); if (param.username == "hgdqstudio" &amp;&amp; param.password == "123456") &#123; res.end(JSON.stringify(dataSuccess)); &#125; else &#123; res.end(JSON.stringify(dataError)); &#125;&#125;); 改造就很获取请求方式，饭后获取请求里面的参数：post请求获取的参数是在body里面，get请求获取的参数是在query里面，后面的params暂未发现有什么作用。然后我们就可以在postman里面测试或是用Node.js.express的get和post输出json提到的mui.ajax来测试【我使用的十MUI框架写的手机端界面】。]]></content>
     </entry>
 
