@@ -1,0 +1,1073 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="node.js,express,mysql," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="准备在开始做这个前，希望你已经配置好的Node,express和MySQL的开发环境。也可以参考参考文章
+开发环境的配置
+新建项目参考Mac下express的安装和新建项目
+mysql模块在package.json文件的dependencies下加入下面的代码“mysql”: “latest”,最终的效果：然后cd到项目所在的目录，在终端中执行npm install,项目就会配置mysql模块。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Node.js+express+MySQL仿美团注册登录绑定第三方登录前后端的实现">
+<meta property="og:url" content="http://hgdqstudio.online/2017/01/23/Node.js+express+MySQL仿美团注册登录绑定第三方登录前后端的实现/index.html">
+<meta property="og:site_name" content="湖工电气的博客">
+<meta property="og:description" content="准备在开始做这个前，希望你已经配置好的Node,express和MySQL的开发环境。也可以参考参考文章
+开发环境的配置
+新建项目参考Mac下express的安装和新建项目
+mysql模块在package.json文件的dependencies下加入下面的代码“mysql”: “latest”,最终的效果：然后cd到项目所在的目录，在终端中执行npm install,项目就会配置mysql模块。">
+<meta property="og:image" content="http://o9059a64b.bkt.clouddn.com/package.png">
+<meta property="og:image" content="http://o9059a64b.bkt.clouddn.com/mulu0122.png">
+<meta property="og:image" content="http://o9059a64b.bkt.clouddn.com/xming.png">
+<meta property="og:image" content="http://o9059a64b.bkt.clouddn.com/mydata.png">
+<meta property="og:image" content="http://o9059a64b.bkt.clouddn.com/login1.gif">
+<meta property="og:updated_time" content="2017-01-23T01:07:49.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Node.js+express+MySQL仿美团注册登录绑定第三方登录前后端的实现">
+<meta name="twitter:description" content="准备在开始做这个前，希望你已经配置好的Node,express和MySQL的开发环境。也可以参考参考文章
+开发环境的配置
+新建项目参考Mac下express的安装和新建项目
+mysql模块在package.json文件的dependencies下加入下面的代码“mysql”: “latest”,最终的效果：然后cd到项目所在的目录，在终端中执行npm install,项目就会配置mysql模块。">
+<meta name="twitter:image" content="http://o9059a64b.bkt.clouddn.com/package.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://hgdqstudio.online/2017/01/23/Node.js+express+MySQL仿美团注册登录绑定第三方登录前后端的实现/"/>
+
+
+
+
+
+  <title> Node.js+express+MySQL仿美团注册登录绑定第三方登录前后端的实现 | 湖工电气的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?d6c633953f9a663fffad594ea8ea06f3";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">湖工电气的博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle"></p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://hgdqstudio.online/2017/01/23/Node.js+express+MySQL仿美团注册登录绑定第三方登录前后端的实现/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="湖工电气">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.png">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="湖工电气的博客">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="湖工电气的博客" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Node.js+express+MySQL仿美团注册登录绑定第三方登录前后端的实现
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-23T10:00:56+08:00">
+                2017-01-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/node-js-express-mysql/" itemprop="url" rel="index">
+                    <span itemprop="name">node.js+express+mysql</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/01/23/Node.js+express+MySQL仿美团注册登录绑定第三方登录前后端的实现/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/23/Node.js+express+MySQL仿美团注册登录绑定第三方登录前后端的实现/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/01/23/Node.js+express+MySQL仿美团注册登录绑定第三方登录前后端的实现/" class="leancloud_visitors" data-flag-title="Node.js+express+MySQL仿美团注册登录绑定第三方登录前后端的实现">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h3><p>在开始做这个前，希望你已经配置好的Node,express和MySQL的开发环境。也可以参考<a href="http://hgdqstudio.online/categories/node-js-express-mysql/">参考文章</a></p>
+<h3 id="开发环境的配置"><a href="#开发环境的配置" class="headerlink" title="开发环境的配置"></a>开发环境的配置</h3><ul>
+<li>新建项目<br>参考<a href="http://hgdqstudio.online/2017/01/13/Mac%E4%B8%8Bexpress%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E6%96%B0%E5%BB%BA%E9%A1%B9%E7%9B%AE/">Mac下express的安装和新建项目</a></li>
+<li>mysql模块<br>在<code>package.json</code>文件的<code>dependencies</code>下加入下面的代码<code>“mysql”: “latest”,</code><br>最终的效果：<br><img src="http://o9059a64b.bkt.clouddn.com/package.png" alt="package"><br>然后<code>cd<code>到项目所在的目录，在终端中执行<code>npm install</code>,项目就会配置mysql模块。</code></code></li>
+<li>新建数据库配置文件<br>在项目目录下新建一个<code>db</code>目录，在目录项新建两个文件<code>DBConfig.js</code>和<code>usersql.js</code><br>效果如下：<br><img src="http://o9059a64b.bkt.clouddn.com/mulu0122.png" alt="xiaoguo1"><br>其中的<code>DBConfig.js</code>是数据库的配置文件，只要代码如下：<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">module</span>.exports =</div><div class="line">&#123;  </div><div class="line">	<span class="attr">mysql</span>: &#123;   </div><div class="line">		<span class="attr">user</span>: <span class="string">'root'</span>,</div><div class="line">		<span class="attr">password</span>: <span class="string">'123456'</span>,</div><div class="line">		<span class="attr">database</span>: <span class="string">'userinfo'</span></div><div class="line">	&#125;</div><div class="line">&#125;;</div><div class="line"><span class="string">``</span><span class="string">` </span></div><div class="line">就是数据库的用户名，密码和数据库名。如果你的数据库和代码不再一个电脑就需要数据库的地址。</div><div class="line">&lt;code&gt;usersql.js&lt;/code&gt;就是实现后台业务所需要的mysql的操作语句</div><div class="line">`<span class="string">``</span> javascript</div><div class="line"><span class="keyword">var</span> UserSQL = &#123;  </div><div class="line">	<span class="attr">insert</span>:<span class="string">'INSERT INTO user(username,password,date,type,openid) VALUES(?,?,?,?,?)'</span>, </div><div class="line">	<span class="attr">bangding</span>:<span class="string">'UPDATE user SET type = ?,openid = ? WHERE username = ? AND password = ? '</span>,</div><div class="line">	<span class="attr">queryAll</span>:<span class="string">'SELECT * FROM user'</span>,  </div><div class="line">	<span class="attr">getUserByOpenid</span>:<span class="string">'SELECT * FROM user WHERE openid = ? '</span>, </div><div class="line">	<span class="attr">getUserByInfo</span>:<span class="string">'SELECT * FROM user WHERE username = ? AND password = ? '</span>,</div><div class="line">	<span class="attr">deleteUserByInfo</span>:<span class="string">'DELETE FROM user WHERE username = ? AND password = ? '</span>,</div><div class="line">&#125;;</div><div class="line"><span class="built_in">module</span>.exports = UserSQL;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="实现后台业务"><a href="#实现后台业务" class="headerlink" title="实现后台业务"></a>实现后台业务</h3><ul>
+<li>业务流程<br>在实现业务之前还是先看看流程，我在用了美团app后自己画了一个美团登录和绑定第三方的简单流程。其中注册流程也简化了。<br><img src="http://o9059a64b.bkt.clouddn.com/xming.png" alt="xming"><br>关于注册我也简化了，就是输入账号和密码就可以注册。</li>
+<li><p>代码实现<br>我的具体业务是写在<code>users.js</code><br>前提是已经建立了对应的数据库和表。<br>首先要引入mysql依赖</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 导入MySQL模块</span></div><div class="line"><span class="keyword">var</span> dbConfig = <span class="built_in">require</span>(<span class="string">'../db/DBConfig'</span>);</div><div class="line"><span class="keyword">var</span> User = <span class="built_in">require</span>(<span class="string">'../db/usersql'</span>);</div><div class="line"></div><div class="line"><span class="keyword">var</span> mysql = <span class="built_in">require</span>(<span class="string">'mysql'</span>); <span class="comment">// 引入mysql依赖</span></div><div class="line"><span class="keyword">var</span> client = mysql.createConnection(dbConfig.mysql); <span class="comment">// 建立连接</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>首先看看注册流程：<br>1.用户输入用户名和密码，点击注册按钮，发送注册请求；<br>2.后台根据用户提交的用户名和密码去数据区查找有没有对应的用户，</p>
+<ol>
+<li>没有，注册成功，把新用户插入数据库 同时记录注册时间</li>
+<li>有，注册失败，用户已经存在<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 注册接口</span></div><div class="line">router.all(<span class="string">'/user/register'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">req, res, next</span>)</span>&#123;</div><div class="line">	<span class="keyword">if</span> (req.method == <span class="string">"POST"</span>) &#123;</div><div class="line">		<span class="keyword">var</span> param = req.body;</div><div class="line">	&#125; <span class="keyword">else</span>&#123;</div><div class="line">		<span class="keyword">var</span> param = req.query || req.params; </div><div class="line">	&#125;</div><div class="line">	client.query(User.getUserByInfo,[param.username,param.password],<span class="function"><span class="keyword">function</span> (<span class="params">err, results</span>)</span>&#123;</div><div class="line">		<span class="keyword">if</span> (err)&#123;</div><div class="line">	  		<span class="keyword">throw</span> err</div><div class="line">	   &#125;<span class="keyword">else</span>&#123;</div><div class="line">	    		<span class="comment">// 数据库不存在 就注册成功</span></div><div class="line">	    		<span class="keyword">if</span> (results.length == <span class="number">0</span>) &#123;</div><div class="line">	    			<span class="comment">// 把新用户插入数据库</span></div><div class="line">	    			client.query(User.insert,[param.username,param.password,getDataStr(),<span class="string">''</span>,<span class="string">''</span>],<span class="function"><span class="keyword">function</span> (<span class="params">err, results</span>) </span>&#123;</div><div class="line">					<span class="keyword">if</span>(err)&#123;</div><div class="line">				  		<span class="keyword">throw</span> err</div><div class="line">				    &#125;<span class="keyword">else</span>&#123;</div><div class="line">						res.end(<span class="built_in">JSON</span>.stringify(&#123;<span class="attr">status</span>:<span class="string">'100'</span>,<span class="attr">msg</span>:<span class="string">'注册成功!'</span>&#125;));</div><div class="line">				    &#125;</div><div class="line">				&#125;)</div><div class="line">	    		&#125; <span class="keyword">else</span>&#123; <span class="comment">// 数据库存在就注册失败</span></div><div class="line">	    			res.end(<span class="built_in">JSON</span>.stringify(&#123;<span class="attr">status</span>:<span class="string">'101'</span>,<span class="attr">msg</span>:<span class="string">'该用户名已经被注册'</span>&#125;));	</div><div class="line">	    		&#125;</div><div class="line">	   &#125;</div><div class="line">	&#125;)</div><div class="line">&#125;);</div><div class="line"><span class="string">``</span><span class="string">` </span></div><div class="line">- 登录流程</div><div class="line">登录就是更具用户提交过来的用户名和密码去数据区比较，用户名和密码都相同就登录，否则就提示用户名或密码错误。</div><div class="line">当然这是简单的，还要做的就是是否存在这个用户。</div><div class="line">`<span class="string">``</span> javascript</div><div class="line"><span class="comment">// 登录接口</span></div><div class="line">router.all(<span class="string">'/user/login'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">req, res, next</span>)</span>&#123;</div><div class="line">	<span class="keyword">if</span> (req.method == <span class="string">"POST"</span>) &#123;</div><div class="line">		<span class="keyword">var</span> param = req.body;</div><div class="line">	&#125; <span class="keyword">else</span>&#123;</div><div class="line">		<span class="keyword">var</span> param = req.query || req.params; </div><div class="line">	&#125; </div><div class="line">	client.query(User.getUserByInfo,[param.username,param.password],<span class="function"><span class="keyword">function</span> (<span class="params">err, results</span>)</span>&#123;</div><div class="line">		<span class="keyword">if</span> (err)&#123;</div><div class="line">	  		<span class="keyword">throw</span> err</div><div class="line">	    &#125;<span class="keyword">else</span>&#123;</div><div class="line">	    		<span class="comment">// 数据库存在 </span></div><div class="line">	    		<span class="keyword">if</span> (results.length == <span class="number">0</span>) &#123;</div><div class="line">	    			res.end(<span class="built_in">JSON</span>.stringify(&#123;<span class="attr">status</span>:<span class="string">'102'</span>,<span class="attr">msg</span>:<span class="string">'用户名或密码错误'</span>&#125;));</div><div class="line">	    		&#125; <span class="keyword">else</span>&#123; </div><div class="line">	    			<span class="keyword">if</span> (results[<span class="number">0</span>].username == param.username &amp;&amp; results[<span class="number">0</span>].password == param.password) &#123;</div><div class="line">	    				res.end(<span class="built_in">JSON</span>.stringify(&#123;<span class="attr">status</span>:<span class="string">'100'</span>,<span class="attr">msg</span>:<span class="string">'登录成功'</span>&#125;));</div><div class="line">	    			&#125;</div><div class="line">	    		&#125;</div><div class="line">	   &#125;</div><div class="line">	&#125;)</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+<li><p>第三方登录<br>第三方登录有这么两步：<br>根据用户的第三方用户唯一标识，这里统称<code>openid</code>去数据库查找</p>
+<ol>
+<li>数据库的某个用户的openid和这个相等就返回注册成功</li>
+<li>数据库没有就，跳转到绑定页面，做绑定用户名的操作<br>这里，为了前台能够判断用户是否绑定了，我给了一个<code>flag</code>字段。<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 第三方登陆接口</span></div><div class="line">router.all(<span class="string">'/user/thirdlogin'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">req, res, next</span>)</span>&#123;</div><div class="line">	<span class="keyword">if</span> (req.method == <span class="string">"POST"</span>) &#123;</div><div class="line">		<span class="keyword">var</span> param = req.body;</div><div class="line">	&#125; <span class="keyword">else</span>&#123;</div><div class="line">		<span class="keyword">var</span> param = req.query || req.params; </div><div class="line">	&#125; </div><div class="line">	<span class="built_in">console</span>.log(param.openid);</div><div class="line">	client.query(User.getUserByOpenid,[param.openid],<span class="function"><span class="keyword">function</span> (<span class="params">err, results</span>)</span>&#123;</div><div class="line">		<span class="keyword">if</span> (err)&#123;</div><div class="line">	  		<span class="keyword">throw</span> err</div><div class="line">	    &#125;<span class="keyword">else</span>&#123;</div><div class="line">	    		<span class="comment">// 数据库不存在 就跳转绑定  flag=1 需要绑定  flag=2 // 不需要绑定</span></div><div class="line">	    		<span class="keyword">if</span> (results.length == <span class="number">0</span>) &#123;</div><div class="line">	    			res.end(<span class="built_in">JSON</span>.stringify(&#123;<span class="attr">status</span>:<span class="string">'100'</span>,<span class="attr">msg</span>:<span class="string">'操作成功'</span>,<span class="attr">flag</span>:<span class="string">'1'</span>&#125;));</div><div class="line">	    		&#125; <span class="keyword">else</span>&#123; <span class="comment">// 数据库存在就登录成功</span></div><div class="line">	    			res.end(<span class="built_in">JSON</span>.stringify(&#123;<span class="attr">status</span>:<span class="string">'100'</span>,<span class="attr">msg</span>:<span class="string">'登录成功'</span>,<span class="attr">flag</span>:<span class="string">'2'</span>&#125;));</div><div class="line">	    		&#125;</div><div class="line">	   &#125;</div><div class="line">	&#125;)</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+<li><p>绑定用户<br>这个就没什么了。就是更新用户的数据</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 绑定接口</span></div><div class="line">router.all(<span class="string">'/user/bangding'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">req, res, next</span>)</span>&#123;</div><div class="line">	<span class="keyword">if</span> (req.method == <span class="string">"POST"</span>) &#123;</div><div class="line">		<span class="keyword">var</span> param = req.body;</div><div class="line">	&#125; <span class="keyword">else</span>&#123;</div><div class="line">		<span class="keyword">var</span> param = req.query || req.params; </div><div class="line">	&#125;</div><div class="line">	client.query(User.getUserByInfo,[param.username,param.password],<span class="function"><span class="keyword">function</span> (<span class="params">err, results</span>)</span>&#123;</div><div class="line">		<span class="keyword">if</span> (err)&#123;</div><div class="line">	  		<span class="keyword">throw</span> err</div><div class="line">	   &#125;<span class="keyword">else</span>&#123;</div><div class="line">	    		<span class="comment">// 更新用户信息</span></div><div class="line">    			client.query(User.bangding,[param.type,param.openid,param.username,param.password],<span class="function"><span class="keyword">function</span> (<span class="params">err, results</span>) </span>&#123;</div><div class="line">				<span class="keyword">if</span>(err)&#123;</div><div class="line">			  		<span class="keyword">throw</span> err</div><div class="line">			    &#125;<span class="keyword">else</span>&#123;</div><div class="line">					res.end(<span class="built_in">JSON</span>.stringify(&#123;<span class="attr">status</span>:<span class="string">'100'</span>,<span class="attr">msg</span>:<span class="string">'绑定成功!'</span>&#125;));</div><div class="line">			    &#125;</div><div class="line">			&#125;)</div><div class="line">	   &#125;</div><div class="line">	&#125;)</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><p>以上的流程基本是最简单的了。<br>测试可以在浏览器测试，根据接口输入对应的参数即可。我是自己写了一个简单的测试app。<br>我是事先在数据库插入了一些数据，下面测试我会用到的。<br><img src="http://o9059a64b.bkt.clouddn.com/mydata.png" alt="data"><br>app效果：<br><img src="http://o9059a64b.bkt.clouddn.com/login1.gif" alt="app"></p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>以前一直都是写iOS的app或是H5的app。这次自己独自写前后台。算是一下小小的突破。<br>前后台一起写的时候，发现前后台，需要很多的配合。以前只是接口不对了就找后台修改。这次就是自己修改了。<br>这需要很多的配合。就像月初做那个物流管理的app。后台人员我就不吐槽了。我都想找他把数据库的地址用户名和密码<br>要过来，我自己写后台算了。<br>要学习的还有很多，遇见问题不要怕，仔细的看报错信息，自己先静下心来思考，看文档。不懂再上网搜索。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/node-js/" rel="tag"># node.js</a>
+          
+            <a href="/tags/express/" rel="tag"># express</a>
+          
+            <a href="/tags/mysql/" rel="tag"># mysql</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/01/19/Node.js+express的接口适配get和post并输出json/" rel="next" title="Node.js+express的接口适配get和post并输出json">
+                <i class="fa fa-chevron-left"></i> Node.js+express的接口适配get和post并输出json
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/01/23/Node.js+express+MySQL仿美团注册登录绑定第三方登录前后端的实现/"
+           data-title="Node.js+express+MySQL仿美团注册登录绑定第三方登录前后端的实现" data-url="http://hgdqstudio.online/2017/01/23/Node.js+express+MySQL仿美团注册登录绑定第三方登录前后端的实现/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="湖工电气" />
+          <p class="site-author-name" itemprop="name">湖工电气</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">22</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">20</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/zhuming3834" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+        
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#准备"><span class="nav-number">1.</span> <span class="nav-text">准备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#开发环境的配置"><span class="nav-number">2.</span> <span class="nav-text">开发环境的配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现后台业务"><span class="nav-number">3.</span> <span class="nav-text">实现后台业务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试"><span class="nav-number">4.</span> <span class="nav-text">测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">湖工电气</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"hgdqstudio"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("hbBmDlLQs6M9ij6ioAnBtHlV-gzGzoHsz", "K5InCTFlAdakr0z2x1M6O0Yw");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+
+</body>
+</html>
