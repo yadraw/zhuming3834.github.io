@@ -86,7 +86,7 @@
 
 <meta property="og:type" content="website">
 <meta property="og:title" content="湖工电气的博客">
-<meta property="og:url" content="http://hgdqstudio.online/tags/mysql/index.html">
+<meta property="og:url" content="http://hgdqstudio.online/tags/MySQL/index.html">
 <meta property="og:site_name" content="湖工电气的博客">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="湖工电气的博客">
@@ -117,13 +117,13 @@
 
 
 
-  <link rel="canonical" href="http://hgdqstudio.online/tags/mysql/"/>
+  <link rel="canonical" href="http://hgdqstudio.online/tags/MySQL/"/>
 
 
 
 
 
-  <title> 标签: mysql | 湖工电气的博客 </title>
+  <title> 标签: MySQL | 湖工电气的博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -282,7 +282,7 @@
   <div id="posts" class="posts-collapse">
     <div class="collection-title">
       <h2 >
-        mysql
+        MySQL
         <small>标签</small>
       </h2>
     </div>
@@ -295,37 +295,9 @@
 
       <h1 class="post-title">
         
-            <a class="post-title-link" href="/2017/01/25/Node.js+express+MySQL使用七牛云实现的用户头像修改/" itemprop="url">
+            <a class="post-title-link" href="/2017/01/19/Mac下MySQL的安装和配置/" itemprop="url">
               
-                <span itemprop="name">Node.js+express+MySQL使用七牛云实现的用户头像修改</span>
-              
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-01-25T12:00:56+08:00"
-              content="2017-01-25" >
-          01-25
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-    
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2017/01/23/ERROR 1130 (HY000): Host '113.57.150.82' is not allowed to connect to this MySQL server/" itemprop="url">
-              
-                <span itemprop="name">ERROR 1130 (HY000) Host '113.57.150.82' is not allowed to connect to this MySQL server</span>
+                <span itemprop="name">Mac下MySQL的安装和配置</span>
               
             </a>
         
@@ -333,37 +305,9 @@
 
       <div class="post-meta">
         <time class="post-time" itemprop="dateCreated"
-              datetime="2017-01-23T15:00:56+08:00"
-              content="2017-01-23" >
-          01-23
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-    
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2017/01/23/Node.js+express+MySQL仿美团注册登录绑定第三方登录前后端的实现/" itemprop="url">
-              
-                <span itemprop="name">Node.js+express+MySQL仿美团注册登录绑定第三方登录前后端的实现</span>
-              
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-01-23T10:00:56+08:00"
-              content="2017-01-23" >
-          01-23
+              datetime="2017-01-19T10:05:40+08:00"
+              content="2017-01-19" >
+          01-19
         </time>
       </div>
 
@@ -416,7 +360,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">31</span>
+                <span class="site-state-item-count">32</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -434,7 +378,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">25</span>
+                <span class="site-state-item-count">26</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -812,6 +756,62 @@
             counter.fetchWhenSave(true);
             counter.increment("time");
             counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+
+</body>
+</html>
+      counter.save(null, {
               success: function(counter) {
                 var $element = $(document.getElementById(url));
                 $element.find('.leancloud-visitors-count').text(counter.get('time'));
